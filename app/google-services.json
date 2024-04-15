@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "182394052648",
+    "project_id": "textapp-9eac0",
+    "storage_bucket": "textapp-9eac0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182394052648:android:8ed2a45a0397c34b9f951d",
+        "android_client_info": {
+          "package_name": "com.example.textapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1gfXHsHYImaHhz5kzkvBOuCUB2sYJFkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
