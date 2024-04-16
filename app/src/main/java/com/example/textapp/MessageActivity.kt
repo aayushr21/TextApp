@@ -1,3 +1,5 @@
+package com.example.textapp
+
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
@@ -13,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.textapp.AdapterClasses.ChatsAdapter
 import com.example.textapp.ModelClasses.Chat
 import com.example.textapp.ModelClasses.Users
-import com.example.textapp.R
-import com.example.textapp.WelcomeActivity
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -29,9 +29,6 @@ import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import javax.crypto.Cipher
-import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
 
 class MessageActivity : AppCompatActivity() {
     var userIdVisit : String? = ""
@@ -96,11 +93,7 @@ class MessageActivity : AppCompatActivity() {
             }
             else
             {
-                // Encrypt the message before sending
-                val secretKey = generateSecretKey()
-                val encryptedMessage = encryptMessage(message, secretKey)
-                val encryptedMessageString = android.util.Base64.encodeToString(encryptedMessage, android.util.Base64.DEFAULT)
-                sendMessageToUser(firebaseUser!!.uid, userIdVisit, encryptedMessageString)
+                sendMessageToUser(firebaseUser!!.uid, userIdVisit, message)
             }
             text_message.setText("")
         }
@@ -115,19 +108,7 @@ class MessageActivity : AppCompatActivity() {
 
         seenMessage(userIdVisit!!)
     }
-    // This generates secretKey for encryption and decryption
-    private fun generateSecretKey(): SecretKey {
-        val keyGenerator = KeyGenerator.getInstance("AES")
-        keyGenerator.init(256)
-        return keyGenerator.generateKey()
-    }
 
-    // This generates to encrypt a message using AES encryption
-    private fun encryptMessage(message: String, secretKey: SecretKey): ByteArray {
-        val cipher = Cipher.getInstance("AES")
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey)
-        return cipher.doFinal(message.toByteArray())
-    }
 
     private fun sendMessageToUser(senderId: String, receiverId: String?, message: String)
     {
@@ -284,4 +265,31 @@ class MessageActivity : AppCompatActivity() {
 
         reference!!.removeEventListener(seenListener!!)
     }
+//    private fun retreiveMessages(senderId: String, receiverId: String?, receiverImageUrl: String?) {
+//        mChatList = ArrayList()
+//        val reference = FirebaseDatabase.getInstance().reference.child("Chats")
+//
+//        reference.addValueEventListener(object : ValueEventListener{
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                (mChatList as ArrayList<Text>).clear()
+//                for (snapshot in snapshot.children)
+//                {
+//                    val text = snapshot.getValue(Text::class.java)
+//
+//                    if (text!!.getReceiver().equals(senderId) && text.getSender().equals(receiverId)
+//                        || text.getReceiver().equals(receiverId) && text.getSender().equals(senderId))
+//                    {
+//                        (mChatList as ArrayList<Text>).add(text)
+//                    }
+//                    textsAdapter = TextsAdapter(this@MessageActivity, (mChatList as ArrayList<Text>), receiverImageUrl!!)
+//                    recyclerview_mchat.adapter = textsAdapter
+//
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//
+//            }
+//        })
+//    }
 }

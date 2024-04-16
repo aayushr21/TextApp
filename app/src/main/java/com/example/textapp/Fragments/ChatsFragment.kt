@@ -18,12 +18,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.util.Base64
-import javax.crypto.Cipher
-import javax.crypto.SecretKey
-import javax.crypto.spec.SecretKeySpec
 
-class ChatsFragment : Fragment() {
+class ChatsFragment : Fragment()
+{
     private var userAdapter: UserAdapter? = null
     private var mUsers: ArrayList<Users> = ArrayList()
     private var usersChatList: ArrayList<ChatList> = ArrayList()
@@ -32,12 +29,14 @@ class ChatsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_chats, container, false)
         recyclerview_chatlist = view.findViewById(R.id.recyclerview_chatlist)
         recyclerview_chatlist.setHasFixedSize(true)
@@ -48,14 +47,16 @@ class ChatsFragment : Fragment() {
         usersChatList = ArrayList()
 
         val ref = FirebaseDatabase.getInstance().reference.child("ChatList").child(firebaseUser!!.uid)
-        ref!!.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
+        ref!!.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot)
+            {
                 (usersChatList as ArrayList).clear()
-                for (dataSnapshot in snapshot.children) {
+                for (dataSnapshot in snapshot.children)
+                {
                     val chatList = dataSnapshot.getValue(ChatList::class.java)
                     (usersChatList as ArrayList).add(chatList!!)
                 }
-                retrieveChatLists()
+                retreiveChatLists()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -65,18 +66,23 @@ class ChatsFragment : Fragment() {
         return view
     }
 
-    private fun retrieveChatLists() {
+    private fun retreiveChatLists()
+    {
         mUsers = ArrayList()
 
         val ref = FirebaseDatabase.getInstance().reference.child("Users")
-        ref!!.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
+        ref!!.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot)
+            {
                 (mUsers as ArrayList).clear()
-                for (dataSnapshot in snapshot.children) {
+                for (dataSnapshot in snapshot.children)
+                {
                     val user = dataSnapshot.getValue(Users::class.java)
 
-                    for (eachChatList in usersChatList!!) {
-                        if (user!!.getUID().equals(eachChatList.getId())) {
+                    for (eachChatList in usersChatList!!)
+                    {
+                        if (user!!.getUID().equals(eachChatList.getId()))
+                        {
                             (mUsers as ArrayList).add(user!!)
                         }
                     }
@@ -89,25 +95,5 @@ class ChatsFragment : Fragment() {
 
             }
         })
-    }
-
-    // Function to decrypt a message received from a user
-    private fun decryptMessageFromUser(encryptedMessage: ByteArray, secretKey: SecretKey): String {
-        try {
-            // Create a Cipher instance for AES encryption with CBC mode and PKCS5Padding
-            val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
-
-            // Initialize the cipher for decryption with the provided secret key
-            cipher.init(Cipher.DECRYPT_MODE, secretKey)
-
-            // Perform the decryption
-            val decryptedMessage = cipher.doFinal(encryptedMessage)
-
-            // Convert the decrypted message byte array to a string
-            return String(decryptedMessage)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return "" // Return an empty string if decryption fails
-        }
     }
 }

@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.textapp"
-        minSdk = 19
+        minSdk = 21
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -66,5 +66,9 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.3.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.3.0")
     implementation ("com.android.support:multidex:1.0.3")
-
+    implementation ("at.favre.lib:bcrypt:0.9.0")
+    implementation ("com.auth0.android:jwtdecode:2.0.0")
+    implementation("com.auth0:java-jwt:3.18.2")
+    implementation ("org.bouncycastle:bcprov-jdk15on:1.68")
+    implementation ("androidx.security:security-crypto:1.1.0-alpha02")
 }

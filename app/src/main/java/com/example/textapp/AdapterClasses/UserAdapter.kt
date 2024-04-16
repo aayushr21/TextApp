@@ -1,22 +1,17 @@
 package com.example.textapp.AdapterClasses
 
-import MessageActivity
-import android.app.AlertDialog
+import com.example.textapp.MessageActivity
 import android.content.DialogInterface
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.textapp.MainActivity
 import com.example.textapp.ModelClasses.Users
 import com.example.textapp.R
-import com.google.firebase.database.core.Context
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import java.math.MathContext
 
 class UserAdapter(mContext: android.content.Context, mUsers: List<Users>, isChatCheck: Boolean )
     : RecyclerView.Adapter<UserAdapter.ViewHolder?>()
