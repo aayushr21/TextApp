@@ -47,18 +47,38 @@ class RegisterActivity : AppCompatActivity() {
         val username_register: EditText = findViewById(R.id.username_register)
         val email_register: EditText = findViewById(R.id.email_register)
         val password_register: EditText = findViewById(R.id.password_register)
-        val username: String = username_register.text.toString()
-        val email: String = email_register.text.toString()
-        val password: String = password_register.text.toString()
+        val username: String = username_register.text.toString().trim()
+        val email: String = email_register.text.toString().trim()
+        val password: String = password_register.text.toString().trim()
 
+        // Input validation
         if (username.isEmpty()) {
-            Toast.makeText(this@RegisterActivity, "Enter your Username", Toast.LENGTH_LONG).show()
+            username_register.error = "Enter your Username"
+            username_register.requestFocus()
             return
-        } else if (email.isEmpty()) {
-            Toast.makeText(this@RegisterActivity, "Enter your Email", Toast.LENGTH_LONG).show()
+        }
+
+        if (email.isEmpty()) {
+            email_register.error = "Enter your Email"
+            email_register.requestFocus()
             return
-        } else if (password.isEmpty()) {
-            Toast.makeText(this@RegisterActivity, "Enter your Password", Toast.LENGTH_LONG).show()
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            email_register.error = "Enter a valid Email address"
+            email_register.requestFocus()
+            return
+        }
+
+        if (password.isEmpty()) {
+            password_register.error = "Enter your Password"
+            password_register.requestFocus()
+            return
+        }
+
+        if (password.length < 6) {
+            password_register.error = "Password should be at least 6 characters long"
+            password_register.requestFocus()
             return
         }
 
